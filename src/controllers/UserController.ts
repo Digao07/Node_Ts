@@ -30,7 +30,9 @@ export class UserController {
         return response.status(200).json(users);
     };
 
-    deleteUser = (email: string, response: Response): Response => {
+    deleteUser = (request: Request, response: Response): Response => {
+        const { email } = request.params;
+
         const userDeleted = this.userService.deleteUser(email);
         
         if (!userDeleted) {

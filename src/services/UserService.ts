@@ -11,37 +11,22 @@ const db: User[] = [
 ]
 
 export class UserService {
-    db: User[]
+    db: { name: string; email: string }[] = [];
 
-    constructor(
-        database = db
-    ){
-        this.db = database
+    createUser(name: string, email: string): void {
+        this.db.push({ name, email });
     }
 
-    createUser = (name: string, email: string) => {
-        const user = {
-            name,
-            email
-        }
-
-        this.db.push(user)
-        console.log('DB atualizado', this.db)
+    getAllUsers(): { name: string; email: string }[] {
+        return this.db;
     }
 
-    getAllUsers = () => {
-        return this.db
-    }
-
-    deleteUser = (email: string): boolean => {
+    deleteUser(email: string): boolean {
         const userIndex = this.db.findIndex(user => user.email === email);
-        
-        if (userIndex === -1) {
-            return false;
+        if (userIndex !== -1) {
+            this.db.splice(userIndex, 1);
+            return true;
         }
-
-        this.db.splice(userIndex, 1);
-        console.log('DB atualizado', this.db);
-        return true;
+        return false;
     }
 }
